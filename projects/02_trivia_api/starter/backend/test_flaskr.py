@@ -51,7 +51,7 @@ class TriviaTestCase(unittest.TestCase):
 
         self.assertEqual(response.status_code, 404)
         self.assertEqual(data['success'], False)
-        self.assertEqual(data['message'], 'resource not found')
+        self.assertEqual(data['message'], 'Not Found')
 
     #------------test get questions-----------------#
     #success
@@ -63,7 +63,7 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data['success'], True)
     #Fail
     def test_get_questions_404(self):
-        response = self.client().get('/questions?page=2000')
+        response = self.client().get('/questions?page=20000')
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 404)
@@ -148,7 +148,7 @@ class TriviaTestCase(unittest.TestCase):
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 404)
-        self.assertEqual(data['message'], 'resource not found')
+        self.assertEqual(data['message'], 'Not Found')
         self.assertEqual(data['success'], False)
 
     #-----------test quiz-------------#

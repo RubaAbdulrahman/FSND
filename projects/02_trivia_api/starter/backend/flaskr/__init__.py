@@ -40,12 +40,9 @@ def create_app(test_config=None):
   for all available categories.
   '''
   @app.route("/categories", methods=["GET"])
-  def get_all_categories():
+  def get_categories():
     if request.method == "GET":
         categories = Category.query.order_by(Category.type).all()
-
-        if len(categories) == 0:
-            abort(404)
 
         return jsonify({
             'success': True,
@@ -72,7 +69,7 @@ def create_app(test_config=None):
 
         if len(current_questions) == 0:
             abort(404)
-
+            
         return jsonify({
             'success': True,
             'questions': current_questions,
@@ -206,15 +203,9 @@ def create_app(test_config=None):
         category = body.get('quiz_category')
         previous_questions = body.get('previous_questions')
 
-        if category['type'] == 'click':
-            available_questions = Question.query.filter(
-                Question.id.notin_((previous_questions))).all()
-        else:
-            available_questions = Question.query.filter_by(
-                category=category['id']).filter(Question.id.notin_((previous_questions))).all()
+        available_questions = Question.query.filter_by(category=category['id']).filter(Question.id.notin_((previous_questions))).all()
 
-        new_question = available_questions[random.randrange(
-            0, len(available_questions))].format() if len(available_questions) > 0 else None
+        new_question = available_questions[random.randrange(0, len(available_questions))].format() if len(available_questions) > 0 else None
 
         return jsonify({
             'success': True,
@@ -232,7 +223,7 @@ def create_app(test_config=None):
     return jsonify({
         "success": False,
         "error": 404,
-        "message": "resource not found"
+        "message": "Not Found"
     }), 404
   @app.errorhandler(422)
   def unprocessable(error):
@@ -256,6 +247,6 @@ def create_app(test_config=None):
             "success": False,
             "error": 500,
             "message": "internal server error"
-        }), 422
+        }), 500
 
   return app
