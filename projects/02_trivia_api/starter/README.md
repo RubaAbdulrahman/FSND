@@ -50,8 +50,9 @@ By making notes ahead of time, you will practice the core skill of being able to
 
 ### Endpoints
 #### GET '/categories'
-* Example response:
 Return all available categories
+* Example response:
+
 "categories": {
    "1": "Science",
    "2": "Art",
@@ -83,6 +84,7 @@ Return all available categories
 #### GET '/categories/id/questions'
 Get question by category
 * Example response:
+
 {
   "current_category": 1,
   "questions": [
@@ -107,6 +109,7 @@ Get question by category
 #### DELETE /questions/<question_id>
 DELETE question using a question ID
 * Example response:
+
 {
   "deleted": "2",
   "success": true
@@ -114,6 +117,7 @@ DELETE question using a question ID
 #### POST ''/questions'
 Add a new question to the list of available questions, which require the question and answer text, category, and difficulty score.
 * Example response:
+
 {
   "created": 29,
   "success": true
@@ -123,6 +127,7 @@ Fetches all questions where a substring matches the search term
 #### POST /quizzes
 Get questions to play the quiz. This endpoint takes category and previous question parameters and return a random questions within the given category, if provided, and that is not one of the previous questions.
 * Example response:
+
 {
   "question": {
     "answer": "The Liver",
