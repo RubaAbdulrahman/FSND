@@ -36,7 +36,7 @@ The [./backend](https://github.com/udacity/FSND/blob/master/projects/02_trivia_a
 The [./frontend](https://github.com/udacity/FSND/blob/master/projects/02_trivia_api/starter/frontend/README.md) directory contains a complete React frontend to consume the data from the Flask server. If you have prior experience building a frontend application, you should feel free to edit the endpoints as you see fit for the backend you design. If you do not have prior experience building a frontend application, you should read through the frontend code before starting and make notes regarding:
 
 1. What are the end points and HTTP methods the frontend is expecting to consume?
-2. How are the requests from the frontend formatted? Are they expecting certain parameters or payloads? 
+2. How are the requests from the frontend formatted? Are they expecting certain parameters or payloads?
 
 Pay special attention to what data the frontend is expecting from each API response to help guide how you format your API. The places where you may change the frontend behavior, and where you should be looking for the above information, are marked with `TODO`. These are the files you'd want to edit in the frontend:
 
@@ -45,8 +45,99 @@ Pay special attention to what data the frontend is expecting from each API respo
 3. *./frontend/src/components/QuizView.js*
 
 
-By making notes ahead of time, you will practice the core skill of being able to read and understand code and will have a simple plan to follow to build out the endpoints of your backend API. 
+By making notes ahead of time, you will practice the core skill of being able to read and understand code and will have a simple plan to follow to build out the endpoints of your backend API.
 
 
+### Endpoints
+#### GET '/categories'
+* Example response:
+Return all available categories
+"categories": {
+   "1": "Science",
+   "2": "Art",
+   "3": "Geography",
+   "4": "History",
+   "5": "Entertainment",
+   "6": "Sports"
+ },
+ "current_category": null,
+ "questions": [
+   {
+     "answer": "Maya Angelou",
+     "category": 4,
+     "difficulty": 2,
+     "id": 5,
+     "question": "Whose autobiography is entitled 'I Know Why the Caged Bird Sings'?"
+   },  
+   {
+     "answer": "Escher",
+     "category": 2,
+     "difficulty": 1,
+     "id": 16,
+     "question": "Which Dutch graphic artist\u2013initials M C was a creator of optical illusions?"
+   }
+ ],
+ "success": true,
+ "total_questions": 2
+}
+#### GET '/categories/id/questions'
+Get question by category
+* Example response:
+{
+  "current_category": 1,
+  "questions": [
+    {
+      "answer": "The Liver",
+      "category": 1,
+      "difficulty": 4,
+      "id": 20,
+      "question": "What is the heaviest organ in the human body?"
+    },
+    {
+      "answer": "Alexander Fleming",
+      "category": 1,
+      "difficulty": 3,
+      "id": 21,
+      "question": "Who discovered penicillin?"
+    },
+  ],
+  "success": true,
+  "total_questions": 2
+}
+#### DELETE /questions/<question_id>
+DELETE question using a question ID
+* Example response:
+{
+  "deleted": "2",
+  "success": true
+}
+#### POST ''/questions'
+Add a new question to the list of available questions, which require the question and answer text, category, and difficulty score.
+* Example response:
+{
+  "created": 29,
+  "success": true
+}
+#### POST /questions/search
+Fetches all questions where a substring matches the search term
+#### POST /quizzes
+Get questions to play the quiz. This endpoint takes category and previous question parameters and return a random questions within the given category, if provided, and that is not one of the previous questions.
+* Example response:
+{
+  "question": {
+    "answer": "The Liver",
+    "category": 1,
+    "difficulty": 4,
+    "id": 20,
+    "question": "What is the heaviest organ in the human body?"
+  },
+  "success": true
+}
+
+### Reference
+* https://realpython.com/installing-python/
+* https://github.com/udacity/FSND/tree/master/projects/02_trivia_api
+* https://github.com/IdenTiclla
+* https://github.com/saelsa/trivia-api
 
 >View the [README within ./frontend for more details.](./frontend/README.md)
