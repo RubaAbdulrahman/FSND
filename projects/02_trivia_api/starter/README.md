@@ -49,94 +49,121 @@ By making notes ahead of time, you will practice the core skill of being able to
 
 
 ### Endpoints
-#### GET '/categories'
-Return all available categories
-* Example response:
 
-"categories": {
-   "1": "Science",
-   "2": "Art",
-   "3": "Geography",
-   "4": "History",
-   "5": "Entertainment",
-   "6": "Sports"
- },
- "current_category": null,
- "questions": [
-   {
-     "answer": "Maya Angelou",
-     "category": 4,
-     "difficulty": 2,
-     "id": 5,
-     "question": "Whose autobiography is entitled 'I Know Why the Caged Bird Sings'?"
-   },  
-   {
-     "answer": "Escher",
-     "category": 2,
-     "difficulty": 1,
-     "id": 16,
-     "question": "Which Dutch graphic artist\u2013initials M C was a creator of optical illusions?"
-   }
- ],
- "success": true,
- "total_questions": 2
+#### GET '/categories'
+- Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
+- Request Arguments: None
+- Returns: An object with a single key, categories, that contains an object of id: category_string key:value pairs.
+{
+    'categories': { '1' : "Science",
+    '2' : "Art",
+    '3' : "Geography",
+    '4' : "History",
+    '5' : "Entertainment",
+    '6' : "Sports" }
 }
-#### GET '/categories/id/questions'
+#### GET '/questions?page=${integer}'
+- Fetches a paginated set of questions, a total number of questions, all categories and current category string.
+- Request Arguments: page - integer
+- Returns: An object with 10 paginated questions, total questions, object including all categories, and current category string
+{
+    'questions': [
+        {
+            'id': 1,
+            'question': 'This is a question',
+            'answer': 'This is an answer',
+            'difficulty': 5,
+            'category': 2
+        },
+    ],
+    'totalQuestions': 100,
+    'categories': { '1' : "Science",
+    '2' : "Art",
+    '3' : "Geography",
+    '4' : "History",
+    '5' : "Entertainment",
+    '6' : "Sports" },
+    'currentCategory': 'History'
+}
+#### GET '/categories/${id}/questions'
 Get question by category
 * Example response:
 
+Fetches questions for a cateogry specified by id request argument
+- Request Arguments: id - integer
+- Returns: An object with questions for the specified category, total questions, and current category string
 {
-  "current_category": 1,
-  "questions": [
-    {
-      "answer": "The Liver",
-      "category": 1,
-      "difficulty": 4,
-      "id": 20,
-      "question": "What is the heaviest organ in the human body?"
-    },
-    {
-      "answer": "Alexander Fleming",
-      "category": 1,
-      "difficulty": 3,
-      "id": 21,
-      "question": "Who discovered penicillin?"
-    },
-  ],
-  "success": true,
-  "total_questions": 2
+   'questions': [
+       {
+           'id': 1,
+           'question': 'This is a question',
+           'answer': 'This is an answer',
+           'difficulty': 5,
+           'category': 4
+       },
+   ],
+   'totalQuestions': 100,
+   'currentCategory': 'History'
 }
 #### DELETE /questions/<question_id>
-DELETE question using a question ID
+- Deletes a specified question using the id of the question
+- Request Arguments: id - integer
 * Example response:
 
 {
-  "deleted": "2",
+  "removed_question": "2",
   "success": true
 }
 #### POST ''/questions'
-Add a new question to the list of available questions, which require the question and answer text, category, and difficulty score.
+POST '/questions'
+- Sends a post request in order to add a new question
+- Request Body:
+{
+    'question':  'Heres a new question string',
+    'answer':  'Heres a new answer string',
+    'difficulty': 1,
+    'category': 3,
+}
 * Example response:
 
 {
-  "created": 29,
+  "added_question": 29,
   "success": true
 }
 #### POST /questions/search
 Fetches all questions where a substring matches the search term
-#### POST /quizzes
-Get questions to play the quiz. This endpoint takes category and previous question parameters and return a random questions within the given category, if provided, and that is not one of the previous questions.
-* Example response:
-
+- Request Body:
 {
-  "question": {
-    "answer": "The Liver",
-    "category": 1,
-    "difficulty": 4,
-    "id": 20,
-    "question": "What is the heaviest organ in the human body?"
-  },
-  "success": true
+    'searchTerm': 'this is the term the user is looking for'
+}
+- Returns: any array of questions, a number of totalQuestions that met the search term and the current category string
+{
+    'questions': [
+        {
+            'id': 1,
+            'question': 'This is a question',
+            'answer': 'This is an answer',
+            'difficulty': 5,
+            'category': 5
+        },
+    ],
+    'totalQuestions': 100,
+    'currentCategory': 'Entertainment'
+}
+#### POST '/quizzes'
+- Sends a post request in order to get the next question
+- Request Body:
+{'previous_questions':  an array of question id's such as [1, 4, 20, 15]
+'quiz_category': a string of the current category }
+- Returns: a single new question object
+{
+    'question': {
+        'id': 1,
+        'question': 'This is a question',
+        'answer': 'This is an answer',
+        'difficulty': 5,
+        'category': 4
+    }
 }
 
 ### Reference
