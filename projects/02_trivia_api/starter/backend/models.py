@@ -4,8 +4,8 @@ from flask_sqlalchemy import SQLAlchemy
 import json
 
 pg_port ="5432"
-pg_user = "rubaa"
-pg_pwd= "12345678"
+pg_user = os.environ['pg_user']
+pg_pwd= os.environ['pg_pwd']
 database_name = "trivia"
 database_path = "postgresql://{username}:{password}@localhost:{port}/trivia".format(username=pg_user, password=pg_pwd, port=pg_port)
 
