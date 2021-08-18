@@ -8,6 +8,7 @@ import babel
 from flask import Flask, render_template, request, Response, flash, redirect, url_for
 from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.dialects.postgresql import ARRAY
 import logging
 from flask_migrate import Migrate
 from logging import Formatter, FileHandler
@@ -41,9 +42,9 @@ class Venue(db.Model):
     facebook_link = db.Column(db.String(120))
 
     # TODO: implement any missing fields, as a database migration using Flask-Migrate
-    genres = db.Column(db.String(120))
+    genres = db.Column(db.String())
     website = db.Column(db.String(120))
-    seeking_talent = db.Column(db.Boolean, default=False)
+    seeking_talent = db.Column(db.Boolean)
     seeking_description = db.Column(db.String(120))
 
 
@@ -60,9 +61,9 @@ class Artist(db.Model):
     facebook_link = db.Column(db.String(120))
 
     # TODO: implement any missing fields, as a database migration using Flask-Migrate
-    genres = db.Column(db.String(120))
+    genres = db.Column(db.String())
     website = db.Column(db.String(120))
-    seeking_venue = db.Column(db.Boolean, default=False)
+    seeking_venue = db.Column(db.Boolean)
     seeking_description= db.Column(db.String(120))
 
 # TODO Implement Show and Artist models, and complete all model relationships and properties, as a database migration.
@@ -154,7 +155,7 @@ def show_venue(venue_id):
             "artist_id": show.artist_id,
             "artist_name": artist.name,
             "artist_image_link": artist.image_link,
-            "start_time": show.start_time#.strftime('%m/%d/%Y')
+            "start_time": show.start_time.strftime('%m/%d/%Y')
             }
 
         if (show.start_time < datetime.now()):
@@ -278,13 +279,12 @@ def show_artist(artist_id):
             "venue_id": show.venue_id,
             "venue_name": venue.name,
             "venue_image_link": venue.image_link,
-            "start_time": show.start_time
+            "start_time": show.start_time.strftime('%m/%d/%Y')
             }
 
         if (show.start_time < datetime.now()):
             past_shows.append(show_add)
         else:
-            print(show_add, file=sys.stderr)
             upcoming_shows.append(show_add)
 
     data = {
